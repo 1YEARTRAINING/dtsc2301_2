@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Driver Behavior Analysis — EDA | Toan Nguyen</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>Blog</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="blog.html">Blog</a>
+    </nav>
+  </header>
+
+  <main>
+    <article class="blog-post">
+      <h2>Driver Behavior Analysis — Exploratory Data Analysis</h2>
+      <p class="date">February 2026</p>
+
+      <p>
+        I chose this topic partly because of my interest in automotive subjects. I am currently
+        working on another project focused on vehicle information from car sales websites, so a
+        driver-focused analysis felt like a natural complement — shifting attention from the car
+        itself to the person behind the wheel.
+      </p>
+
+      <h3>The Research Question</h3>
+      <p>
+        The central question driving this analysis was: <em>what sensor signals most clearly
+        distinguish aggressive, distracted, and normal driving behavior?</em> More specifically —
+        do aggressive drivers consistently show higher speed and harder braking? Is phone usage a
+        reliable indicator of distraction, or do signals like lane deviation and reaction time tell
+        a richer story? And which features best separate the three behavior categories?
+      </p>
+
+      <h3>The Dataset</h3>
+      <p>
+        The dataset was sourced from Kaggle and simulates onboard diagnostic (OBD) and
+        accelerometer readings captured during individual driving events. Each of the 30,000 rows
+        represents a single moment in time, described by 11 sensor-based features: speed, forward
+        and lateral acceleration, brake pressure, steering angle, throttle position, lane
+        deviation, phone usage, headway distance (gap to the car ahead), reaction time, and a
+        behavior label — either <em>Aggressive</em>, <em>Distracted</em>, or <em>Normal</em>.
+        There were no missing values, and all three classes were exactly balanced at 10,000
+        observations each — a clear sign of synthetic generation, but also a convenient property
+        for fair group comparisons.
+      </p>
+
+      <h3>What the Data Showed</h3>
+      <p>
+        The box plots were the most revealing part of the analysis. Brake pressure turned out to
+        be the single strongest separator between groups: aggressive drivers apply dramatically
+        harder braking, while normal drivers brake most gently. Speed followed a similar pattern —
+        aggressive drivers run faster, though distracted and normal drivers are much closer to
+        each other, meaning speed alone cannot tell those two groups apart.
+      </p>
+
+      <p>
+        Lane deviation was the defining signature of distracted driving. Distracted drivers drifted
+        the most from lane center, consistent with divided attention. Aggressive drivers also
+        showed above-normal deviation, but for a different reason — likely high-speed maneuvering
+        rather than inattention. Headway distance told a complementary story: aggressive drivers
+        maintained the shortest following gap (tailgating), while normal drivers kept the largest.
+      </p>
+
+      <p>
+        Phone usage was almost entirely concentrated in the distracted group, with near-zero rates
+        in the other two. But it is not sufficient on its own — the scatter plots and box plots
+        showed meaningful variation in lane deviation and reaction time within the distracted group
+        regardless of phone use. The core signature of distracted driving in this dataset is really
+        a combination of phone usage, elevated lane deviation, and a wider, more erratic reaction
+        time distribution.
+      </p>
+
+      <p>
+        One finding that stood out: aggressive drivers had <em>fast</em> reaction times — not slow
+        ones. This might seem counterintuitive, but it reflects the nature of high-risk driving.
+        These drivers are constantly reacting to the high-intensity situations they create, not
+        being cautious. Distracted drivers, by contrast, scattered across a wide reaction time
+        range, consistent with inconsistent attention.
+      </p>
+
+      <p>
+        The correlation matrix confirmed that most features are weakly correlated with each other,
+        meaning each visualization contributed independent information. The one exception was a
+        moderate positive correlation between speed and throttle — expected, since going faster
+        requires more throttle. Everything else was largely independent.
+      </p>
+
+      <h3>Limitations</h3>
+      <p>
+        The main caveat here is that the data is synthetic. Real telematics data would include road
+        type, speed limits, weather, and time of day — context that fundamentally changes the
+        meaning of a reading. 100 km/h on a highway is normal; the same speed on a residential
+        street is dangerous. Without that context, patterns in this dataset partly reflect the
+        assumptions built into how the data was generated rather than actual human behavior.
+        Additionally, observations are treated as independent, when in reality readings from a
+        single driver form a correlated time series.
+      </p>
+
+      <h3>Takeaway</h3>
+      <p>
+        No single sensor reading reliably identifies a driver's behavior — group overlap in the
+        scatter plots makes that clear. But the combination of speed, brake pressure, lane
+        deviation, and reaction time produces coherent and distinct profiles for each group. The
+        analysis confirmed that distraction and aggression are behaviorally distinct: aggression
+        is characterized by intensity and speed, while distraction shows up as inattention and
+        drift — two fundamentally different failure modes that would require different detection
+        strategies in a real safety system.
+      </p>
+
+      <p>
+        <a href="eda.pdf" class="project-link" target="_blank">Download full EDA notebook (PDF) →</a>
+      </p>
+    </article>
+  </main>
+
+  <footer>
+    <p>© 2026 Toan Nguyen</p>
+  </footer>
+
+</body>
+</html>
